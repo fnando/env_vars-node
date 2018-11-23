@@ -164,6 +164,32 @@ suite("@fnando/env_vars", () => {
     assert.strictEqual("Etc/UTC", config.tz);
   });
 
+  test("consider acronyms", () => {
+    const acronyms = require("../acronyms");
+
+    const config = env(({optional}) => {
+      acronyms.forEach(acronym => optional(`PREFIX_${acronym}_SUFFIX`, string, acronym));
+    }, {});
+
+
+    acronyms.forEach(acronym => {
+      assert.strictEqual(acronym, config[`prefix${acronym}Suffix`])
+    });
+  });
+
+  test("adds custom acronym", () => {
+    const acronyms = require("../acronyms");
+    acronyms.push("RTSP");
+
+    const config = env(({mandatory}) => {
+      mandatory("RTSP_SERVER", string);
+    }, {RTSP_SERVER: "rtsp://example.com"});
+
+    assert.strictEqual("rtsp://example.com", config.RTSPServer);
+
+    acronyms.pop();
+  });
+
   test("set arbitrary property", () => {
     const config = env(({property}) => {
       property("number", () => 1234);

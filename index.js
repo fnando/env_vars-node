@@ -27,6 +27,7 @@ function set(vars, config, name, type, defaultValue, options) {
   attrs.forEach(attr => {
     Object.defineProperty(config, attr, {
       configurable: false,
+      enumerable: true,
       get() {
         if (!(name in vars)) {
           return defaultValue;
@@ -83,20 +84,19 @@ function validate(vars, name, required) {
 }
 
 function getAttrName(value) {
+  const acronyms = require("./acronyms");
   const words = value.split("_");
+
   return words.map((word, index) => {
     word = word.toLowerCase();
+    const acronym = word.toUpperCase();
 
-    if (index === 0) {
+    if (acronyms.includes(acronym)) {
+      return acronym;
+    } else if (index === 0) {
       return word;
-    }
-
-    switch(word) {
-      case "ssl":
-      case "url":
-        return word.toUpperCase();
-      default:
-        return word[0].toUpperCase() + word.substr(1);
+    } else {
+      return word[0].toUpperCase() + word.substr(1);
     }
   }).join("");
 }
@@ -112,6 +112,7 @@ function $optional(vars, config, name, type, defaultValue = null, options = {ali
 function $property(config, name, func) {
   Object.defineProperty(config, name, {
     configurable: false,
+    enumerable: true,
     get() {
       return func();
     }

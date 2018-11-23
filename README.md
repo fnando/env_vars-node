@@ -55,7 +55,20 @@ config.redis.get("key", print);
 #=> "value"
 ```
 
-Note: If your env var has the words `SSL` or `URL`, then case will be honoured. `FORCE_SSL` and `REDIS_URL` will be available as `forceSSL` and `redisURL` respectively.
+Note: `@fnando/env_vars` supports a small list of acronyms (words that will be set as uppercased in property names). Words like `URL` and `SSL` will be returned as it is (e.g. `REDIS_URL` will be defined as `config.redisURL`). The full list is available at <https://github.com/fnando/env_vars-node/blob/master/acronyms.js>. You can add new words to the list by loading `@fnando/env_vars/acronyms` like the following:
+
+```js
+import {env, string} from "@fnando/env_vars"
+import {acronyms} from "@fnando/env_vars/acronyms";
+
+acronyms.push("RTSP");
+
+const config = env(({optional}) => {
+  optional("RTSP_SERVER", string, "rtsp://127.0.0.1");
+});
+
+config.RTSPServer
+```
 
 ### Types
 
