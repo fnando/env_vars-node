@@ -4,7 +4,7 @@ Access environment variables. Also includes presence validation, type coercion a
 
 [![Travis-CI](https://travis-ci.org/fnando/env_vars-node.svg)](https://travis-ci.org/fnando/env_vars-node)
 [![NPM package version](https://img.shields.io/npm/v/@fnando/env_vars.svg)](https://www.npmjs.com/package/@fnando/env_vars)
-![License: MIT](https://img.shields.io/npm/l/@fnando/env_vars.svg)
+[![License: MIT](https://img.shields.io/npm/l/@fnando/env_vars.svg)](https://tldrlegal.com/license/mit-license)
 
 ## Installation
 
