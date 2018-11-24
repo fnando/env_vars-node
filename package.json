@@ -2,7 +2,7 @@
   "name": "@fnando/env_vars",
   "description": "Access environment variables. Also includes presence validation, type coercion and default values.",
   "repository": "https://github.com/fnando/env_vars-node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "test": "mocha --ui tdd"
   },
