@@ -3,7 +3,7 @@
   "description": "Access environment variables. Also includes presence validation, type coercion and default values.",
   "repository": "https://github.com/fnando/env_vars-node",
   "license": "MIT",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "test": "mocha --ui tdd"
   },
