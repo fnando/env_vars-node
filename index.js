@@ -7,15 +7,29 @@ const array = (type = "string") => ["array", type];
 
 const boolTrue = ["yes", "true", "1", true];
 
+function proxyGetHandler(target, property) {
+  if (property in target) {
+    return target[property];
+  } else {
+    throw new Error(`"${property}" is not a registered configuration.`);
+  }
+}
+
+function proxySetHandler(target, property, value) {
+  throw new Error(`Configuration is read-only ("${property}" was assigned).`);
+}
+
 function env(setup, vars = process.env) {
   const config = {};
+  const proxy = new Proxy(config, {get: proxyGetHandler, set: proxySetHandler});
+
   const mandatory = (...args) => $mandatory(vars, config, ...args);
   const optional = (...args) => $optional(vars, config, ...args);
   const property = (...args) => $property(config, ...args);
 
   setup({mandatory, optional, property});
 
-  return config;
+  return proxy;
 }
 
 function set(vars, config, name, type, defaultValue, options) {

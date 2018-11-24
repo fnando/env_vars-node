@@ -33,7 +33,7 @@ suite("@fnando/env_vars", () => {
     assert.strictEqual("myapp", config.appName);
   });
 
-  test("defines optional", () => {
+  test("define optional", () => {
     const config = env(({optional}) => {
       optional("APP_NAME", string);
     }, {});
@@ -41,7 +41,7 @@ suite("@fnando/env_vars", () => {
     assert.isNull(config.appName);
   });
 
-  test("defines optional with default value", () => {
+  test("define optional with default value", () => {
     const config = env(({optional}) => {
       optional("APP_NAME", string, "myapp");
     }, {});
@@ -105,7 +105,7 @@ suite("@fnando/env_vars", () => {
     assert.strictEqual(true, config.forceSSL);
   });
 
-  test("coerces bool value", () => {
+  test("coerce bool value", () => {
     ["yes", "true", "1"].forEach(value => {
       const config = env(({mandatory}) => {
         mandatory("FORCE_SSL", bool);
@@ -123,7 +123,7 @@ suite("@fnando/env_vars", () => {
     });
   });
 
-  test("coerces int value", () => {
+  test("coerce int value", () => {
     const config = env(({mandatory}) => {
       mandatory("TIMEOUT", int);
     }, {TIMEOUT: 10});
@@ -131,7 +131,7 @@ suite("@fnando/env_vars", () => {
     assert.strictEqual(10, config.timeout);
   });
 
-  test("raises exception with invalid int", () => {
+  test("raise exception with invalid int", () => {
     const config = env(({mandatory}) => {
       mandatory("TIMEOUT", int);
     }, {TIMEOUT: "invalid"});
@@ -139,7 +139,7 @@ suite("@fnando/env_vars", () => {
     assert.throws(() => config.timeout, "invalid value for integer: \"invalid\"");
   });
 
-  test("raises exception with invalid float", () => {
+  test("raise exception with invalid float", () => {
     const config = env(({mandatory}) => {
       mandatory("WAIT", float);
     }, {WAIT: "invalid"});
@@ -177,7 +177,7 @@ suite("@fnando/env_vars", () => {
     });
   });
 
-  test("adds custom acronym", () => {
+  test("add custom acronym", () => {
     const acronyms = require("../acronyms");
     acronyms.push("RTSP");
 
@@ -196,5 +196,24 @@ suite("@fnando/env_vars", () => {
     }, {});
 
     assert.strictEqual(1234, config.number);
+  });
+
+  test("raise error for missing configuration", () => {
+    const config = env(({property}) => {
+      property("number", () => 1234);
+    }, {});
+
+    assert.throws(() => {
+      config.missing;
+    }, "\"missing\" is not a registered configuration.");
+  });
+
+  test("raise error when assigning configuration", () => {
+    const config = env(({property}) => {
+    }, {});
+
+    assert.throws(() => {
+      config.prop = 1234;
+    }, "Configuration is read-only (\"prop\" was assigned).");
   });
 });

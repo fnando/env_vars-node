@@ -52,10 +52,28 @@ import {print} from "redis";
 
 config.redis.set("key", "value", print);
 config.redis.get("key", print);
-#=> "value"
+//=> "value"
 ```
 
-Note: `@fnando/env_vars` supports a small list of acronyms (words that will be set as uppercased in property names). Words like `URL` and `SSL` will be returned as it is (e.g. `REDIS_URL` will be defined as `config.redisURL`). The full list is available at <https://github.com/fnando/env_vars-node/blob/master/acronyms.js>. You can add new words to the list by loading `@fnando/env_vars/acronyms` like the following:
+### Missing properties & assignment
+
+An exception is thrown for properties that weren't registered:
+
+```js
+config.missing
+//=> throws `"missing" is not a registered configuration.`
+```
+
+You're also not allowed to assign properties to the config object.
+
+```js
+config.name = "John";
+//=> throws `Configuration is read-only ("name" was assigned).`
+```
+
+### Acronyms
+
+`@fnando/env_vars` supports a small list of acronyms (words that will be set as uppercased in property names). Words like `URL` and `SSL` will be returned as it is (e.g. `REDIS_URL` will be defined as `config.redisURL`). The full list is available at <https://github.com/fnando/env_vars-node/blob/master/acronyms.js>. You can add new words to the list by loading `@fnando/env_vars/acronyms` like the following:
 
 ```js
 import {env, string} from "@fnando/env_vars"
