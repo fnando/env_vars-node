@@ -8,6 +8,7 @@ module.exports = [
   "HTTPS",
   "REST",
   "SSL",
+  "SQL",
   "TTL",
   "URL",
 ];
