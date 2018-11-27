@@ -98,6 +98,28 @@ You can coerce values to the following types:
 - `bool`: E.g. `optional("force_ssl", bool)`. Any of `yes`, `true` or `1` is considered as `true`. Any other value will be coerced to `false`.
 - `array`: E.g. `optional("chars", array())` or `optional("numbers", array(int))`. The environment variable must be something like `a,b,c`.
 
+### Testing
+
+To stub properties in tests, you can import `stub` and `restore`:
+
+```js
+import {env, int} from "@fnando/env_vars";
+import {stub, restore} from "@fnando/env_vars/testing";
+
+const config = env(({optional}) => optional("NUMBER", int, 1234));
+config.number
+//=> 1234
+
+stub(config, "number", 4321);
+config.number
+//=> 4321
+
+restore();
+
+config.number
+//=> 1234
+```
+
 ## Development
 
 Run `yarn test` to run the tests.
